@@ -605,7 +605,6 @@ for error in [0.01,0.02,0.03,0.04,0.05]:
         each=split_string_by_length(string, 150)
         #模拟DNA存储
         #out=open(str(error)+"_index.txt","a")
-        start=time.time()
         iiiii=0;new_sequence="";
         while(iiiii<(len(each)-1)):
             try:
