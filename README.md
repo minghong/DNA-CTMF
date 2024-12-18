@@ -10,7 +10,7 @@ Run **color_image.py** to simulate color image (Lisa.bmp) in DNA storage with di
 
 The codes of Fig. S1 are in the **time_test** folder.
 
-The codes of the other methods (part) is in the **other_method** folder.
+The codes of the other methods (part) are in the **other_method** folder.
 
 ## Citation
 The related paper has been submitted to a sci journal.
