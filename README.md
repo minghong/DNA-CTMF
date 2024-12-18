@@ -13,7 +13,7 @@ The codes of Fig. S1 are in the **time_test** folder.
 The codes of the other methods (part) is in the **other_method** folder.
 
 ## Citation
-A related paper has been submitted a sci journal.
+The related paper has been submitted to a sci journal.
 
 ## Contact
 If you have any questions, please contact us.
