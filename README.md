@@ -7,3 +7,9 @@ Run **gray_image.py** to simulate grayscale image (lena.bmp) in DNA storage with
 Run **color_image.py** to simulate color image (Lisa.bmp) in DNA storage with different error rates and compositions.
 
 **gray_image_quality_index.py** and **color_image_quality_index.py** are codes that calculate the indexes of reconstructed image. **color_image_quality_index.py**  provide two ways to calculate MSE, PSNR, SSIM in color images.
+
+The codes of Fig. S1 are in the **time_test** folder.
+
+The codes of the other methods (part) is in the **other_method** folder.
+
+## Citation
