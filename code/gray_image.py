@@ -251,7 +251,7 @@ def correct_dele(wrong,num):
     sta=time.time()
     try:
         sig.signal(sig.SIGALRM, handle_timeout)
-        sig.setitimer(sig.ITIMER_REAL, 0.1)    
+        sig.setitimer(sig.ITIMER_REAL, 0.01)    
         tmp_corect="";tmp_haiming=10000
         if(num==1):
             for pos_1 in range(len(temp_wrong)):
@@ -364,7 +364,7 @@ def correct_ins(wrong,num):
     
     try:      
         sig.signal(sig.SIGALRM, handle_timeout)
-        sig.setitimer(sig.ITIMER_REAL, 0.1)
+        sig.setitimer(sig.ITIMER_REAL, 0.01)
         tmp_corect="";tmp_haiming=10000
         if(num==1):
             for pos_1 in range(len(temp_wrong)):
@@ -626,7 +626,8 @@ if __name__ == '__main__':
                             correct_sequence=merge_sequence(xx,yy,right_merge[0][0],wrong_merge[0][0])
                         else:
                             correct_sequence="".join(xx)
-                            print(len(correct_sequence))
+                        if(correct_sequence=="N"*150):
+                            continue
                     else: #no_error or all_base_group of sequence meet map rule
                         correct_sequence=error_sequence
 
