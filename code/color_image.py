@@ -766,10 +766,10 @@ if __name__ == '__main__':
         msssimm=mssim_1(cv2.imread("Blue.bmp",cv2.IMREAD_GRAYSCALE),cv2.imread('Blue_1.bmp',cv2.IMREAD_GRAYSCALE))+mssim_1(cv2.imread("Green.bmp",cv2.IMREAD_GRAYSCALE),cv2.imread('Green_1.bmp',cv2.IMREAD_GRAYSCALE))+mssim_1(cv2.imread("Red.bmp",cv2.IMREAD_GRAYSCALE),cv2.imread('Red_1.bmp',cv2.IMREAD_GRAYSCALE))
 
         print(reconstruct_image_name)
-        print(round(str(msee/3),3)+"\t")
-        print(round(str(psnrr/3),3)+"\t")
-        print(round(str(ssimm/3),3)+"\t")
+        print(round((msee/3),3))
+        print(round((psnrr/3),3))
+        print(round((ssimm/3),3))
                                     
-        print(round(str(msssimm/3),3)+"\t")
+        print(round((msssimm/3),3))
 
     
