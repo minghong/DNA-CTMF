@@ -300,12 +300,10 @@ def correct_sub(wrong):
             
 def correct_dele(wrong,num):
     temp_wrong=wrong
+    sta=time.time()
     try:
-
         sig.signal(sig.SIGALRM, handle_timeout)
-        sig.alarm(timeout_duration) 
-        
-        
+        sig.setitimer(sig.ITIMER_REAL, 0.1)    
         tmp_corect="";tmp_haiming=10000
         if(num==1):
             for pos_1 in range(len(temp_wrong)):
@@ -323,6 +321,7 @@ def correct_dele(wrong,num):
                             minn=min(hm_distance(xxxx,temp),minn)
                         haiming_1+=minn
                 if(haiming_1==0 and flag==1):
+                    sig.setitimer(sig.ITIMER_REAL, 0)
                     return wrong
                 if(haiming_1<tmp_haiming and flag==1):
                     tmp_haiming=haiming_1;tmp_corect=wrong
@@ -344,6 +343,7 @@ def correct_dele(wrong,num):
                                 minn=min(hm_distance(xxxx,temp),minn)
                             haiming_1+=minn
                     if(haiming_1==0 and flag==1):
+                        sig.setitimer(sig.ITIMER_REAL, 0)
                         return wrong
                     if(haiming_1<tmp_haiming and flag==1):
                         tmp_haiming=haiming_1;tmp_corect=wrong
@@ -369,6 +369,7 @@ def correct_dele(wrong,num):
                                     minn=min(hm_distance(xxxx,temp),minn)
                                 haiming_1+=minn
                         if(haiming_1==0 and flag==1):
+                            sig.setitimer(sig.ITIMER_REAL, 0)
                             return wrong
                         if(haiming_1<tmp_haiming and flag==1):
                             tmp_haiming=haiming_1;tmp_corect=wrong
@@ -397,23 +398,25 @@ def correct_dele(wrong,num):
                                         minn=min(hm_distance(xxxx,temp),minn)
                                     haiming_1+=minn
                             if(haiming_1==0 and flag==1):
+                                sig.setitimer(sig.ITIMER_REAL, 0)
                                 return wrong
                             if(haiming_1<tmp_haiming and flag==1):
                                 tmp_haiming=haiming_1;tmp_corect=wrong
-        sig.alarm(0)
+        sig.setitimer(sig.ITIMER_REAL, 0)
         if(tmp_corect==""):
             return ("NNNNN"*(int((len(temp_wrong)-num)/5)))
         
         return correct_sub(tmp_corect)
-    except:
+    except Exception as e:
         return ("NNNNN"*(int((len(temp_wrong)-num)/5)))
-
+import time
 def correct_ins(wrong,num):
     temp_wrong=wrong
-    try:
-        
+    sta=time.time()
+    
+    try:      
         sig.signal(sig.SIGALRM, handle_timeout)
-        sig.alarm(timeout_duration)    
+        sig.setitimer(sig.ITIMER_REAL, 0.1)
         tmp_corect="";tmp_haiming=10000
         if(num==1):
             for pos_1 in range(len(temp_wrong)):
@@ -434,6 +437,7 @@ def correct_ins(wrong,num):
                                 minn=min(hm_distance(xxxx,temp),minn)
                             haiming_1+=minn
                     if(haiming_1==0 and flag==1):
+                        sig.setitimer(sig.ITIMER_REAL, 0)
                         return wrong
                     if(haiming_1<tmp_haiming and flag==1):
                         tmp_haiming=haiming_1;tmp_corect=wrong
@@ -459,6 +463,7 @@ def correct_ins(wrong,num):
                                         minn=min(hm_distance(xxxx,temp),minn)
                                     haiming_1+=minn
                             if(haiming_1==0 and flag==1):
+                                sig.setitimer(sig.ITIMER_REAL, 0)
                                 return wrong
                             if(haiming_1<tmp_haiming and flag==1):
                                 tmp_haiming=haiming_1;tmp_corect=wrong
@@ -487,6 +492,7 @@ def correct_ins(wrong,num):
                                                 minn=min(hm_distance(xxxx,temp),minn)
                                             haiming_1+=minn
                                     if(haiming_1==0 and flag==1):
+                                        sig.setitimer(sig.ITIMER_REAL, 0)
                                         return wrong
                                     if(haiming_1<tmp_haiming and flag==1):
                                         tmp_haiming=haiming_1;tmp_corect=wrong
@@ -518,15 +524,16 @@ def correct_ins(wrong,num):
                                                         minn=min(hm_distance(xxxx,temp),minn)
                                                     haiming_1+=minn
                                             if(haiming_1==0 and flag==1):
+                                                sig.setitimer(sig.ITIMER_REAL, 0)
                                                 return wrong
                                             if(haiming_1<tmp_haiming and flag==1):
                                                 tmp_haiming=haiming_1;tmp_corect=wrong
-        sig.alarm(0)
+        sig.setitimer(sig.ITIMER_REAL, 0)
         if(tmp_corect==""):
             return ("NNNNN"*(int((len(temp_wrong)+num)/5)))
         return correct_sub(tmp_corect)
         
-    except:
+    except Exception as e:
         return ("NNNNN"*(int((len(temp_wrong)+num)/5)))
 def merge_sequence(wrong,right,right_num,wrong_num):
     correct=""
@@ -646,7 +653,7 @@ if __name__ == '__main__':
        map_rule.append(line.rstrip("\n"))   
     file.close()
     image_name= "Lisa.jpg"
-    timeout_duration = 0.01;error_composition=[1,1,1]
+    timeout_duration = 0.1;error_composition=[1,1,1]
     red,green,blue=image_to_bitstream(image_name)
 
     for base_error_rate in [0.01,0.02,0.03,0.04,0.05]:  #set base error rate
@@ -671,38 +678,41 @@ if __name__ == '__main__':
             all_correct_sequence=[]
             for sequence in each_DNA:
                 while(1): 
-                    try:
-                        error_sequence=mutate(sequence,base_error_rate,error_composition)
-                        all_base_group_initial=cal_all_base_group_initial(error_sequence,each_base_group_length)
-                        all_merge=cal_consecutive_merge(all_base_group_initial)
-                        right_merge=cal_exceed_therashold_merge(all_merge,therashold)    
-                        wrong_merge=error_combin_merge(subtract_intervals([0,len(error_sequence)-1],right_merge))
-                        if(wrong_merge!=[]):
-                            valid_selection=optimal_correct_step(wrong_merge)
-                            if not valid_selection:
-                                continue
-                            else:
-                                min_valid_selection = min(valid_selection, key=lambda x: sum(abs(i) for i in x))
-                            yy=[];xx=[]
-                            for right in range(len(right_merge)):
-                                yy.append(error_sequence[right_merge[right][0]:right_merge[right][-1]+1])
+                    error_sequence=mutate(sequence,base_error_rate,error_composition)
+                    all_base_group_initial=cal_all_base_group_initial(error_sequence,each_base_group_length)
+                    all_merge=cal_consecutive_merge(all_base_group_initial)
+                    right_merge=cal_exceed_therashold_merge(all_merge,therashold)    
+                    wrong_merge=error_combin_merge(subtract_intervals([0,len(error_sequence)-1],right_merge))
+                    if(wrong_merge!=[]):
+                        valid_selection=optimal_correct_step(wrong_merge)
+                        if not valid_selection:
+                            continue
+                        else:
+                            min_valid_selection = min(valid_selection, key=lambda x: sum(abs(i) for i in x))
+                        yy=[];xx=[]
+                        for right in range(len(right_merge)):
+                            yy.append(error_sequence[right_merge[right][0]:right_merge[right][-1]+1])
 
-                            for wrong in range(len(min_valid_selection)):
-                                if(min_valid_selection[wrong]==0):
-                                    xx.append(correct_sub(error_sequence[wrong_merge[wrong][0]:wrong_merge[wrong][-1]+1]))
-                                elif(min_valid_selection[wrong]>0):
-                                    
-                                    xx.append(correct_ins(error_sequence[wrong_merge[wrong][0]:wrong_merge[wrong][-1]+1],min_valid_selection[wrong]))
-                                elif(min_valid_selection[wrong]<0):
-                                    xx.append(correct_dele(error_sequence[wrong_merge[wrong][0]:wrong_merge[wrong][-1]+1],abs(min_valid_selection[wrong])))
+                        for wrong in range(len(min_valid_selection)):
+                            if(min_valid_selection[wrong]==0):
+                                xx.append(correct_sub(error_sequence[wrong_merge[wrong][0]:wrong_merge[wrong][-1]+1]))
+                            elif(min_valid_selection[wrong]>0):
+                                
+                                xx.append(correct_ins(error_sequence[wrong_merge[wrong][0]:wrong_merge[wrong][-1]+1],min_valid_selection[wrong]))
+                            elif(min_valid_selection[wrong]<0):
+                                xx.append(correct_dele(error_sequence[wrong_merge[wrong][0]:wrong_merge[wrong][-1]+1],abs(min_valid_selection[wrong])))
 
+                        if(len(right_merge)!=0):
                             correct_sequence=merge_sequence(xx,yy,right_merge[0][0],wrong_merge[0][0])
-                        else: #no_error or all_base_group of sequence meet map rule
-                            correct_sequence=error_sequence
-                        all_correct_sequence.append(correct_sequence)
-                        break
-                    except:
-                        pass
+                        else:
+                            correct_sequence="".join(xx)
+                        if(correct_sequence=="N"*150):
+                            continue
+                    else: #no_error or all_base_group of sequence meet map rule
+                        correct_sequence=error_sequence
+                    all_correct_sequence.append(correct_sequence)
+                    break
+
             swapped_map_rule = {index: value for value, index in enumerate(map_rule)}
             x= 0.4;r = 3.9
             decode_pixel=[]   
@@ -741,8 +751,8 @@ if __name__ == '__main__':
         cv2.imwrite("Blue.bmp", b)
         cv2.imwrite("Green.bmp", g)
         cv2.imwrite("Red.bmp", r)
-
-
+        
+        
         reconstructed_image_name="median_fliter_"+reconstruct_image_name
         reconstructed_image = cv2.imread(reconstructed_image_name,1)
         b, g, r = cv2.split(reconstructed_image)
@@ -755,11 +765,11 @@ if __name__ == '__main__':
         ssimm=ssim(cv2.imread("Blue.bmp",cv2.IMREAD_GRAYSCALE),cv2.imread('Blue_1.bmp',cv2.IMREAD_GRAYSCALE))+ssim(cv2.imread("Green.bmp",cv2.IMREAD_GRAYSCALE),cv2.imread('Green_1.bmp',cv2.IMREAD_GRAYSCALE))+ssim(cv2.imread("Red.bmp",cv2.IMREAD_GRAYSCALE),cv2.imread('Red_1.bmp',cv2.IMREAD_GRAYSCALE))
         msssimm=mssim_1(cv2.imread("Blue.bmp",cv2.IMREAD_GRAYSCALE),cv2.imread('Blue_1.bmp',cv2.IMREAD_GRAYSCALE))+mssim_1(cv2.imread("Green.bmp",cv2.IMREAD_GRAYSCALE),cv2.imread('Green_1.bmp',cv2.IMREAD_GRAYSCALE))+mssim_1(cv2.imread("Red.bmp",cv2.IMREAD_GRAYSCALE),cv2.imread('Red_1.bmp',cv2.IMREAD_GRAYSCALE))
 
-        
-        print(str(msee/3)+"\t")
-        print(str(psnrr/3)+"\t")
-        print(str(ssimm/3)+"\t")
+        print(reconstruct_image_name)
+        print(round(str(msee/3),3)+"\t")
+        print(round(str(psnrr/3),3)+"\t")
+        print(round(str(ssimm/3),3)+"\t")
                                     
-        print(str(msssimm/3)+"\t")
+        print(round(str(msssimm/3),3)+"\t")
 
     
