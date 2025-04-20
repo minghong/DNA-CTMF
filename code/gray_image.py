@@ -251,7 +251,7 @@ def correct_dele(wrong,num):
     sta=time.time()
     try:
         sig.signal(sig.SIGALRM, handle_timeout)
-        sig.setitimer(sig.ITIMER_REAL, 0.01)    
+        sig.setitimer(sig.ITIMER_REAL, timeout_duration)    
         tmp_corect="";tmp_haiming=10000
         if(num==1):
             for pos_1 in range(len(temp_wrong)):
@@ -364,7 +364,7 @@ def correct_ins(wrong,num):
     
     try:      
         sig.signal(sig.SIGALRM, handle_timeout)
-        sig.setitimer(sig.ITIMER_REAL, 0.01)
+        sig.setitimer(sig.ITIMER_REAL, timeout_duration)
         tmp_corect="";tmp_haiming=10000
         if(num==1):
             for pos_1 in range(len(temp_wrong)):
@@ -567,7 +567,7 @@ def handle_timeout(signum, frame):
     raise Exception("Timeout!")
 
 if __name__ == '__main__':    
-    image_name="peppers.bmp";
+    image_name="peppers.bmp";timeout_duration = 0.1
     for error_composition in [[8,1,1],[7,1.5,1.5],[6,2,2],[5,2.5,2.5],[4,3,3],[1,1,1]]:
         for base_error_rate in [0.01,0.02,0.03,0.04,0.05]:
             file=open("coding_table.txt")
@@ -671,7 +671,7 @@ if __name__ == '__main__':
             
             
             
-            image=cv2.imread(reconstruct_image_name)
+            image=cv2.imread(reconstruct_image_name,cv2.IMREAD_GRAYSCALE)
             median_1 = apply_median_filter(image)
             cv2.imwrite("median_"+reconstruct_image_name, median_1)
             img1 = cv2.imread(image_name,cv2.IMREAD_GRAYSCALE)
