@@ -751,6 +751,26 @@ if __name__ == '__main__':
         cv2.imwrite("Blue.bmp", b)
         cv2.imwrite("Green.bmp", g)
         cv2.imwrite("Red.bmp", r)
+
+        print(reconstruct_image_name)
+        reconstructed_image_name=reconstruct_image_name
+        reconstructed_image = cv2.imread(reconstructed_image_name,1)
+        b, g, r = cv2.split(reconstructed_image)
+        cv2.imwrite("Blue_1.bmp", b)
+        cv2.imwrite("Green_1.bmp", g)
+        cv2.imwrite("Red_1.bmp", r)
+
+        msee=MSE(cv2.imread("Blue.bmp"),cv2.imread('Blue_1.bmp'))+MSE(cv2.imread("Green.bmp"),cv2.imread('Green_1.bmp'))+MSE(cv2.imread("Red.bmp"),cv2.imread('Red_1.bmp'))
+        psnrr=psnr(cv2.imread("Blue.bmp",cv2.IMREAD_GRAYSCALE),cv2.imread('Blue_1.bmp',cv2.IMREAD_GRAYSCALE))+psnr(cv2.imread("Green.bmp",cv2.IMREAD_GRAYSCALE),cv2.imread('Green_1.bmp',cv2.IMREAD_GRAYSCALE))+psnr(cv2.imread("Red.bmp",cv2.IMREAD_GRAYSCALE),cv2.imread('Red_1.bmp',cv2.IMREAD_GRAYSCALE))
+        ssimm=ssim(cv2.imread("Blue.bmp",cv2.IMREAD_GRAYSCALE),cv2.imread('Blue_1.bmp',cv2.IMREAD_GRAYSCALE))+ssim(cv2.imread("Green.bmp",cv2.IMREAD_GRAYSCALE),cv2.imread('Green_1.bmp',cv2.IMREAD_GRAYSCALE))+ssim(cv2.imread("Red.bmp",cv2.IMREAD_GRAYSCALE),cv2.imread('Red_1.bmp',cv2.IMREAD_GRAYSCALE))
+        msssimm=mssim_1(cv2.imread("Blue.bmp",cv2.IMREAD_GRAYSCALE),cv2.imread('Blue_1.bmp',cv2.IMREAD_GRAYSCALE))+mssim_1(cv2.imread("Green.bmp",cv2.IMREAD_GRAYSCALE),cv2.imread('Green_1.bmp',cv2.IMREAD_GRAYSCALE))+mssim_1(cv2.imread("Red.bmp",cv2.IMREAD_GRAYSCALE),cv2.imread('Red_1.bmp',cv2.IMREAD_GRAYSCALE))
+
+        
+        print(round((msee/3),3))
+        print(round((psnrr/3),3))
+        print(round((ssimm/3),3))
+                                    
+        print(round((msssimm/3),3))
         
         
         reconstructed_image_name="median_fliter_"+reconstruct_image_name
@@ -764,7 +784,6 @@ if __name__ == '__main__':
         psnrr=psnr(cv2.imread("Blue.bmp",cv2.IMREAD_GRAYSCALE),cv2.imread('Blue_1.bmp',cv2.IMREAD_GRAYSCALE))+psnr(cv2.imread("Green.bmp",cv2.IMREAD_GRAYSCALE),cv2.imread('Green_1.bmp',cv2.IMREAD_GRAYSCALE))+psnr(cv2.imread("Red.bmp",cv2.IMREAD_GRAYSCALE),cv2.imread('Red_1.bmp',cv2.IMREAD_GRAYSCALE))
         ssimm=ssim(cv2.imread("Blue.bmp",cv2.IMREAD_GRAYSCALE),cv2.imread('Blue_1.bmp',cv2.IMREAD_GRAYSCALE))+ssim(cv2.imread("Green.bmp",cv2.IMREAD_GRAYSCALE),cv2.imread('Green_1.bmp',cv2.IMREAD_GRAYSCALE))+ssim(cv2.imread("Red.bmp",cv2.IMREAD_GRAYSCALE),cv2.imread('Red_1.bmp',cv2.IMREAD_GRAYSCALE))
         msssimm=mssim_1(cv2.imread("Blue.bmp",cv2.IMREAD_GRAYSCALE),cv2.imread('Blue_1.bmp',cv2.IMREAD_GRAYSCALE))+mssim_1(cv2.imread("Green.bmp",cv2.IMREAD_GRAYSCALE),cv2.imread('Green_1.bmp',cv2.IMREAD_GRAYSCALE))+mssim_1(cv2.imread("Red.bmp",cv2.IMREAD_GRAYSCALE),cv2.imread('Red_1.bmp',cv2.IMREAD_GRAYSCALE))
-
         print(reconstruct_image_name)
         print(round((msee/3),3))
         print(round((psnrr/3),3))
