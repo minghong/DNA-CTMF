@@ -15,3 +15,6 @@ Xu Q., Zhou Y., Sun Q., Zhao X., Lu Z., Bi K. DNA-CTMF: Reconstruct High Quality
 
 ## Contact
 If you have any questions, please contact us.
+
+## License
+This project is licensed under the MIT License.
